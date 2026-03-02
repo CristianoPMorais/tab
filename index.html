@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabuleiro 1000 Botões</title>
+
+
+
+<style>
+    body {
+        margin: 0;
+        background-color: #222;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(40, 1fr); /* 40 colunas */
+        gap: 0;
+        width: 95vw;
+        max-width: 1400px;
+    }
+
+    .cell {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* Mantém formato quadrado */
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+
+    .white {
+        background-color: #ffffff;
+    }
+
+    .black {
+        background-color: #000000;
+    }
+
+    .label {
+        position: absolute;
+        bottom: 4px;
+        left: 6px;
+        font-size:50%;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+    }
+
+    .white .label {
+        color: black;
+    }
+
+    .black .label {
+        color: white;
+    }
+
+    .cell:hover {
+        opacity: 0.8;
+        transition: 0.2s;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="board" id="board"></div>
+
+<script>
+    const links = {
+            "1,1": "https://google.com",
+            "1,2": "https://youtube.com",
+            "2,1": "https://github.com",
+            "3,5": "https://uol.com.br"
+        };
+
+    const totalButtons = 1000;
+    const columns = 40;
+    const rows = Math.ceil(totalButtons / columns);
+    const board = document.getElementById("board");
+
+    for (let i = 0; i < totalButtons; i++) {
+        const row = Math.floor(i / columns) + 1;
+        const col = (i % columns) + 1;
+
+        const button = document.createElement("button");
+        button.classList.add("cell");
+
+        // Alternância estilo xadrez
+        if ((row + col) % 2 === 0) {
+            button.classList.add("white");
+        } else {
+            button.classList.add("black");
+        }
+
+        // Criar numeração
+        const label = document.createElement("span");
+        label.classList.add("label");
+        label.innerText = row + "," + col;
+
+        button.appendChild(label);
+
+        // Link dinâmico (ALTERE AQUI SE QUISER)
+        button.onclick = function () {
+            const links = {
+                "1,1": "https://divergencia-armario-pgmn.vercel.app/",
+                "1,2": "https://youtube.com",
+                "1,3": "https://github.com",
+                "1,4": "https://uol.com.br"
+            };
+            const key = row + "," + col;
+
+            if (links[key]) {
+                window.location.href = links[key];
+            } else {
+                alert("Nenhum link cadastrado para " + key);
+            }
+        };
+
+        board.appendChild(button);
+    }
+</script>
+
+</body>
+</html>
