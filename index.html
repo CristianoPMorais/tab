@@ -5,64 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tabuleiro 1000 Botões</title>
 
-
-
 <style>
-    body {
-        margin: 0;
-        background-color: #222;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
+body {
+margin:0;
+background-color:#222;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
 
-    .board {
-        display: grid;
-        grid-template-columns: repeat(40, 1fr); /* 40 colunas */
-        gap: 0;
-        width: 95vw;
-        max-width: 1400px;
-    }
+.board{
+display:grid;
+grid-template-columns:repeat(40,1fr);
+gap:0;
+width:95vw;
+max-width:1400px;
+}
 
-    .cell {
-        position: relative;
-        width: 100%;
-        padding-top: 100%; /* Mantém formato quadrado */
-        cursor: pointer;
-        border: none;
-        outline: none;
-    }
+.cell{
+position:relative;
+width:100%;
+padding-top:100%;
+cursor:pointer;
+border:none;
+outline:none;
+transition:transform 0.3s;
+}
 
-    .white {
-        background-color: #ffffff;
-    }
+/* cores */
 
-    .black {
-        background-color: #000000;
-    }
+.white{
+background-color:#ffffff;
+animation:pulseWhite 2s infinite;
+}
 
-    .label {
-        position: absolute;
-        bottom: 4px;
-        left: 6px;
-        font-size:50%;
-        font-weight: bold;
-        font-family: Arial, sans-serif;
-    }
+.black{
+background-color:#000000;
+animation:pulseBlack 2s infinite;
+}
 
-    .white .label {
-        color: black;
-    }
+/* animação branca */
 
-    .black .label {
-        color: white;
-    }
+@keyframes pulseWhite{
 
-    .cell:hover {
-        opacity: 0.8;
-        transition: 0.2s;
-    }
+0%{transform:scale(1)}
+40%{transform:scale(1)}
+50%{transform:scale(1.12)}
+60%{transform:scale(1)}
+100%{transform:scale(1)}
+
+}
+
+/* animação preta (deslocada 1s) */
+
+@keyframes pulseBlack{
+
+0%{transform:scale(1)}
+40%{transform:scale(1)}
+50%{transform:scale(1.12)}
+60%{transform:scale(1)}
+100%{transform:scale(1)}
+
+}
+
+.black{
+animation-delay:1s;
+}
+
+.label{
+position:absolute;
+bottom:4px;
+left:6px;
+font-size:50%;
+font-weight:bold;
+font-family:Arial;
+}
+
+.white .label{
+color:black;
+}
+
+.black .label{
+color:white;
+}
+
+.cell:hover{
+opacity:0.8;
+transition:0.2s;
+}
 </style>
 </head>
 
@@ -71,58 +102,55 @@
 <div class="board" id="board"></div>
 
 <script>
-    const links = {
-            "1,1": "https://google.com",
-            "1,2": "https://youtube.com",
-            "2,1": "https://github.com",
-            "3,5": "https://uol.com.br"
-        };
 
-    const totalButtons = 1000;
-    const columns = 40;
-    const rows = Math.ceil(totalButtons / columns);
-    const board = document.getElementById("board");
+const totalButtons = 1000;
+const columns = 40;
+const rows = Math.ceil(totalButtons / columns);
+const board = document.getElementById("board");
 
-    for (let i = 0; i < totalButtons; i++) {
-        const row = Math.floor(i / columns) + 1;
-        const col = (i % columns) + 1;
+for(let i=0;i<totalButtons;i++){
 
-        const button = document.createElement("button");
-        button.classList.add("cell");
+const row = Math.floor(i / columns) + 1;
+const col = (i % columns) + 1;
 
-        // Alternância estilo xadrez
-        if ((row + col) % 2 === 0) {
-            button.classList.add("white");
-        } else {
-            button.classList.add("black");
-        }
+const button=document.createElement("button");
+button.classList.add("cell");
 
-        // Criar numeração
-        const label = document.createElement("span");
-        label.classList.add("label");
-        label.innerText = row + "," + col;
+if((row + col) % 2 === 0){
+button.classList.add("white");
+}else{
+button.classList.add("black");
+}
 
-        button.appendChild(label);
+const label=document.createElement("span");
+label.classList.add("label");
+label.innerText=row + "," + col;
 
-        // Link dinâmico (ALTERE AQUI SE QUISER)
-        button.onclick = function () {
-            const links = {
-                "1,1": "https://divergencia-armario-pgmn.vercel.app/",
-                "1,2": "https://youtube.com",
-                "1,3": "https://github.com",
-                "1,4": "https://uol.com.br"
-            };
-            const key = row + "," + col;
+button.appendChild(label);
 
-            if (links[key]) {
-                window.location.href = links[key];
-            } else {
-                alert("Nenhum link cadastrado para " + key);
-            }
-        };
+button.onclick=function(){
 
-        board.appendChild(button);
-    }
+const links={
+"1,1":"https://divergencia-armario-pgmn.vercel.app/",
+"1,2":"https://youtube.com",
+"1,3":"https://logoanimada.vercel.app/",
+"1,4":"https://uol.com.br"
+};
+
+const key=row + "," + col;
+
+if(links[key]){
+window.location.href=links[key];
+}else{
+alert("Nenhum link cadastrado para "+key);
+}
+
+};
+
+board.appendChild(button);
+
+}
+
 </script>
 
 </body>
