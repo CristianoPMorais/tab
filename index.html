@@ -7,151 +7,105 @@
 
 <style>
 body {
-margin:0;
-background-color:#222;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+    margin:0;
+    background-color:#222;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
 
-.board{
-display:grid;
-grid-template-columns:repeat(40,1fr);
-gap:0;
-width:95vw;
-max-width:1400px;
+.board {
+    display:grid;
+    grid-template-columns:repeat(40,1fr);
+    gap:0;
+    width:95vw;
+    max-width:1400px;
 }
 
-.cell{
-position:relative;
-width:100%;
-padding-top:100%;
-cursor:pointer;
-border:none;
-outline:none;
-transition:transform 0.3s;
+.cell {
+    position:relative;
+    width:100%;
+    padding-top:100%;
+    cursor:pointer;
+    border:none;
+    outline:none;
+    /* Removido transition fixo para não conflitar com a animação */
 }
 
-/* cores */
+.white { background-color:#ffffff; animation: pulse 1s infinite; }
+.black { background-color:#000000; animation: pulse 1s infinite; }
 
-.white{
-background-color:#ffffff;
-animation:pulseWhite 1s infinite;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
 }
 
-.black{
-background-color:#000000;
-animation:pulseBlack 1s infinite;
+.label {
+    position:absolute;
+    bottom:4px;
+    left:6px;
+    font-size:50%;
+    font-weight:bold;
+    font-family:Arial;
+    pointer-events: none;
 }
 
-/* animação branca */
+.white .label { color:black; }
+.black .label { color:white; }
 
-@keyframes pulseWhite{
-
-0%{transform:scale(1)}
-40%{transform:scale(1)}
-50%{transform:scale(1.12)}
-60%{transform:scale(1)}
-100%{transform:scale(1)}
-
-}
-
-/* animação preta (deslocada 1s) */
-
-@keyframes pulseBlack{
-
-0%{transform:scale(1)}
-40%{transform:scale(1)}
-50%{transform:scale(1.12)}
-60%{transform:scale(1)}
-100%{transform:scale(1)}
-
-}
-
-.black{
-animation-delay:1s;
-}
-
-.label{
-position:absolute;
-bottom:4px;
-left:6px;
-font-size:50%;
-font-weight:bold;
-font-family:Arial;
-}
-
-.white .label{
-color:black;
-}
-
-.black .label{
-color:white;
-}
-
-.cell:hover{
-opacity:2;
-transition:0.2s;
+.cell:hover {
+    opacity: 0.8;
+    z-index: 10;
+    transform: scale(1.3) !important;
 }
 </style>
 </head>
 
 <body>
-
 <div class="board" id="board"></div>
 
 <script>
-
 const totalButtons = 1000;
 const columns = 40;
-const rows = Math.ceil(totalButtons / columns);
 const board = document.getElementById("board");
 
-for(let i=0;i<totalButtons;i++){
+for(let i=0; i<totalButtons; i++) {
+    const row = Math.floor(i / columns) + 1;
+    const col = (i % columns) + 1;
 
-const row = Math.floor(i / columns) + 1;
-const col = (i % columns) + 1;
+    const button = document.createElement("button");
+    button.classList.add("cell");
+    
+    // Define se é branco ou preto
+    button.classList.add((row + col) % 2 === 0 ? "white" : "black");
 
-const button=document.createElement("button");
-button.classList.add("cell");
+    // Aleatoriedade: Atraso e Duração
+    const delay = Math.random() * 5; // até 5s de atraso
+    const duration = 1.5 + Math.random() * 2; // entre 1.5s e 3.5s de velocidade
+    button.style.animationDelay = `-${delay}s`;
+    button.style.animationDuration = `${duration}s`;
 
-if((row + col) % 2 === 0){
-button.classList.add("white");
-}else{
-button.classList.add("black");
+    const label = document.createElement("span");
+    label.classList.add("label");
+    label.innerText = `${row},${col}`;
+    button.appendChild(label);
+
+    button.onclick = function() {
+        const links = {
+            "1,1":"https://divergencia-armario-pgmn.vercel.app/",
+            "1,2":"https://youtube.com",
+            "1,3":"https://logoanimada.vercel.app/",
+            "1,4":"https://uol.com.br"
+        };
+        const key = `${row},${col}`;
+        if(links[key]) window.location.href = links[key];
+        else alert("Nenhum link cadastrado para " + key);
+    };
+
+    board.appendChild(button);
 }
-
-const label=document.createElement("span");
-label.classList.add("label");
-label.innerText=row + "," + col;
-
-button.appendChild(label);
-
-button.onclick=function(){
-
-const links={
-"1,1":"https://divergencia-armario-pgmn.vercel.app/",
-"1,2":"https://youtube.com",
-"1,3":"https://logoanimada.vercel.app/",
-"1,4":"https://uol.com.br"
-};
-
-const key=row + "," + col;
-
-if(links[key]){
-window.location.href=links[key];
-}else{
-alert("Nenhum link cadastrado para "+key);
-}
-
-};
-
-board.appendChild(button);
-
-}
-
 </script>
-
 </body>
 </html>
