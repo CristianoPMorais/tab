@@ -33,8 +33,16 @@ body {
     /* Removido transition fixo para não conflitar com a animação */
 }
 
-.white { background-color:#ffffff; animation: pulse 1s infinite; }
-.black { background-color:#000000; animation: pulse 1s infinite; }
+.white {
+    background: radial-gradient(circle, white 0%, black 100%);
+    animation: pulse 1s infinite;
+    border-radius: 10%;
+    }
+.black {
+    background: radial-gradient(circle, black 0%, white 100%);
+    animation: pulse 1s infinite; 
+    border-radius: 10%;
+    }
 
 @keyframes pulse {
     0% { transform: scale(1); }
