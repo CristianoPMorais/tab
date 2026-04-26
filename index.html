@@ -36,18 +36,18 @@ body {
 .white {
     background: radial-gradient(circle, white 0%, black 100%);
     animation: pulse 1s infinite;
-    border-radius: 10%;
+    border-radius: 50%;
     }
 .black {
     background: radial-gradient(circle, black 0%, white 100%);
     animation: pulse 1s infinite; 
-    border-radius: 10%;
+    border-radius: 50%;
     }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-    100% { transform: scale(1); }
+    0% { transform: scale(0); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(0); }
 }
 
 .label {
@@ -60,14 +60,17 @@ body {
     pointer-events: none;
 }
 
-.white .label { color:black; }
-.black .label { color:white; }
+.white .label { color:transparent }
+.black .label { color:transparent }
 
 .cell:hover {
     opacity: 0.8;
     z-index: 10;
-    transform: scale(1.3) !important;
-}
+    transform: scale(2) !important;
+    }
+.white:hover .label { color: black; }
+.black:hover .label { color: white; }
+
 </style>
 </head>
 
